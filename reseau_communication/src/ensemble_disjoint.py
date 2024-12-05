@@ -15,7 +15,6 @@ class EnsembleDisjoint:
     def trouver(self, x):
         """
         Trouver la racine de l'élément x en utilisant la méthode de compression de chemin.
-        
         :param x: L'élément dont on veut trouver la racine
         :return: La racine de x
         """

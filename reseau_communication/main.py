@@ -1,13 +1,23 @@
 from src.generateur_reseau import GenerateurReseau
+from src.generateur_reseau_threading import GenerateurReseauThreading
 import sys
+import pyfiglet
+
+def afficher_ascii_art():
+    """
+    Affiche l'ASCII Art 'MEGA MINDS' sans couleur.
+    """
+    ascii_art = pyfiglet.figlet_format("MEGA MINDS")
+    print(ascii_art)
+
 
 def main():
     """
     Fonction principale qui permet à l'utilisateur d'entrer une séquence de degrés
     soit manuellement, soit à partir d'un fichier texte. Ensuite, génère les réseaux
-    en utilisant la classe GenerateurReseau et affiche les résultats.
+    en utilisant la classe GenerateurReseau ou GenerateurReseauThreading et affiche les résultats.
     """
-    # Demander à l'utilisateur de choisir une méthode d'entrée pour la séquence de degrés
+    afficher_ascii_art()  
     choix = input("Voulez-vous entrer une séquence de degrés manuellement (m) ou charger à partir d'un fichier (f) ? (m/f): ").strip().lower()
 
     if choix == "f":
@@ -44,12 +54,18 @@ def main():
         print("Choix invalide. Veuillez choisir 'm' pour manuel ou 'f' pour fichier.")
         sys.exit(1)
 
-    # Générer et afficher les réseaux pour chaque séquence
+    # Demander si l'utilisateur veut utiliser la version multi-threading
+    threading_choix = input("Voulez-vous utiliser la version avec multi-threading ? (o/n) : ").strip().lower()
+
     for sequence in sequences_test:
         print(f"\nGénération des réseaux pour la séquence : {sequence}")
         try:
-            generateur = GenerateurReseau(sequence)
-            reseaux = generateur.generer_reseaux()
+            if threading_choix == "o":
+                generateur = GenerateurReseauThreading(sequence)
+                reseaux = generateur.generer_reseaux_concurrents()
+            else:
+                generateur = GenerateurReseau(sequence)
+                reseaux = generateur.generer_reseaux()
             
             print(f"Nombre total de réseaux uniques : {len(reseaux)}")
             for i, reseau in enumerate(reseaux, 1):
