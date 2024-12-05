@@ -1,0 +1,3 @@
+# Aucune dépendance externe requise
+pyfiglet
+argparse
